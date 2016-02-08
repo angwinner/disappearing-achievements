@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <body>
+    <input type="text" id="newTodo" name="newTodo"
+           placeholder="Enter new to-do here" size="60"
+           required autofocus onchange="addTodo()"/>
+    <p><b>Things To Do</b> (click to remove)</p>
+    <ul id="todoList"></ul>
+
+    <script>
+
+    var todotexts = [];
+    var todokeys = [];
+    var nextkeynumber = 1;
+
+    function addTodo(){
+      // create key
+      var key = 'todo' + nextkeynumber;
+      nextkeynumber++;
+
+      // get input
+      var desc = document.getElementById("newTodo").value;
+  
+      // add new todo to arrays
+      todokeys.unshift(key)
+      todotexts.unshift(desc)
+
+      refreshArray();
+
+      // clear input box
+      document.getElementById("newTodo").value = "";
+    }
+
+    function formatlink(key, content){
+      result = "";
+      result += '<li id="' + key + '" onClick="deleteTodo(\'' + key + '\')" >'
+      result += content + '</li>';
+      return result;
+    }
+
+    function refreshArray(){
+      var listdisplay = "";
+        for (var index = 0; index < todotexts.length; index++) {
+          listdisplay += formatlink(todokeys[index], todotexts[index]);
+        } 
+        document.getElementById("todoList").innerHTML = listdisplay;
+    }
+
+    function deleteTodo(key){
+      document.getElementById(key).innerHTML = "deleted";
+
+      //find index of key
+      var index = todokeys.indexOf(key);
+      //remove item at index for both arrays
+      todokeys.splice(index, 1);
+      todotexts.splice(index, 1);
+      
+      refreshArray();
+    }
+
+  </script>
+  
+  </body>
+</html>
